@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 @Builder  // inject vào contructer thông qua Buider
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthenticationResponse {
+    String token;
     boolean authenticated;
 
 }
