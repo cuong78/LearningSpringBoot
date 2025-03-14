@@ -3,15 +3,12 @@ package com.cuong.identify_service.dto.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder  // inject vào contructer thông qua Buider
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserUpdateRequest {
-    String password;
-    String firstName;
-    String lastName;
-    LocalDate dob;
+public class AuthenticationRequest {
+     String username;
+     String password;
 }
