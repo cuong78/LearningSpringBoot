@@ -28,7 +28,6 @@ import java.util.List;
 @Slf4j
 public class UserService {
     UserRepository userRepository;
-   // RoleRepository roleRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
@@ -42,7 +41,7 @@ public class UserService {
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.USER.name());
 
-        // user.setRoles(roles);
+         user.setRoles(roles);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
@@ -74,19 +73,20 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
- //   @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getUsers(){
         log.info("In method get Users");
         return userRepository.findAll().stream()
                 .map(userMapper::toUserResponse).toList();
     }
 
-//    @PostAuthorize("returnObject.username == authentication.name")
-//    public UserResponse getUser(String id){
-//        log.info("In method get user by Id");
-//        return userMapper.toUserResponse(userRepository.findById(id)
-//                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
-//    }
+    // kiểm tra chỉ mình mới xem đc mình  , ko xem đc của người khác
+    @PostAuthorize("returnObject.username == authentication.name")
+    public UserResponse getUser(String id){
+        log.info("In method get user by Id");
+        return userMapper.toUserResponse(userRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+    }
 
 
 }
