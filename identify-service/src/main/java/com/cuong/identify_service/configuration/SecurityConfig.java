@@ -23,7 +23,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableWebSecurity
-// cấu hình
 @EnableMethodSecurity
 public class SecurityConfig {
 
@@ -41,8 +40,6 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
                 request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users")
-                        .hasRole(Role.ADMIN.name())
                         .anyRequest().authenticated());
 
         httpSecurity.oauth2ResourceServer(
@@ -50,6 +47,7 @@ public class SecurityConfig {
                      oauth2.jwt(jwtConfigurer ->
                              jwtConfigurer.decoder(jwtDecoder())
                                      .jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                             .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
         );
 
         httpSecurity.csrf(AbstractHttpConfigurer:: disable );
