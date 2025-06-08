@@ -33,7 +33,7 @@ public class ApplicationInitConfig {
                 role.add(Role.ADMIN.name());
                 User user = User.builder()
                         .username("admin")
-                        .roles(role)
+                     //   .roles(role)
                         .password(passwordEncoder.encode("admin"))
 
                         .build();
