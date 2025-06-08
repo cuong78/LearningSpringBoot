@@ -67,11 +67,11 @@ public class UserController {
                 .build();
     }
 
-//    @PutMapping("/{userId}")
-//    ApiResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request){
-//        return ApiResponse.<UserResponse>builder()
-//                .result(userService.updateUser(userId, request))
-//                .build();
-//    }
+    @PutMapping("/{userId}")
+    ApiResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request){
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.updateUser(userId, request))
+                .build();
+    }
 
 }

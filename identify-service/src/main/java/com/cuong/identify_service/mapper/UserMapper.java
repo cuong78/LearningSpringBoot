@@ -15,6 +15,7 @@ public interface UserMapper {
     User toUser(UserCreationRequest userCreationRequest);
 
     // map User Update vào user
+    @Mapping(target = "roles", ignore = true)
     void updateUser(@MappingTarget User user, UserUpdateRequest userUpdateRequest);
 
     // chỉ định cột lastName của UserResponse sẽ đc map với giá trị firstName của user

@@ -2,12 +2,14 @@ package com.cuong.identify_service.service;
 
 
 import com.cuong.identify_service.dto.request.UserCreationRequest;
+import com.cuong.identify_service.dto.request.UserUpdateRequest;
 import com.cuong.identify_service.dto.response.UserResponse;
 import com.cuong.identify_service.entity.User;
 import com.cuong.identify_service.enums.Role;
 import com.cuong.identify_service.exception.AppException;
 import com.cuong.identify_service.exception.ErrorCode;
 import com.cuong.identify_service.mapper.UserMapper;
+import com.cuong.identify_service.repository.RoleRepository;
 import com.cuong.identify_service.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
+    RoleRepository roleRepository;
 
     public UserResponse createUser(UserCreationRequest request){
         if (userRepository.existsByUsername(request.getUsername()))
@@ -56,24 +59,26 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-//    public UserResponse updateUser(String userId, UserUpdateRequest request) {
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-//
-//        userMapper.updateUser(user, request);
-//        user.setPassword(passwordEncoder.encode(request.getPassword()));
-//
-//        var roles = roleRepository.findAllById(request.getRoles());
-//        user.setRoles(new HashSet<>(roles));
-//
-//        return userMapper.toUserResponse(userRepository.save(user));
-//    }
+    public UserResponse updateUser(String userId, UserUpdateRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        userMapper.updateUser(user, request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
+
+        return userMapper.toUserResponse(userRepository.save(user));
+    }
 
     public void deleteUser(String userId){
         userRepository.deleteById(userId);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+   // @PreAuthorize("hasRole('ADMIN')")
+   // @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('approved_post')")
     public List<UserResponse> getUsers(){
         log.info("In method get Users");
         return userRepository.findAll().stream()
