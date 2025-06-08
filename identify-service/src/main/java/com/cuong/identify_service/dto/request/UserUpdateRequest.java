@@ -1,5 +1,6 @@
 package com.cuong.identify_service.dto.request;
 
+import com.cuong.identify_service.validator.DobConstraint;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -16,5 +17,7 @@ public class UserUpdateRequest {
     String firstName;
     String lastName;
     LocalDate dob;
+
+    @DobConstraint(min = 18, message = "INVALID_DOB")
     List<String> roles;
 }

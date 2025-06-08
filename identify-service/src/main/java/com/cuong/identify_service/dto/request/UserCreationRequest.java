@@ -1,5 +1,6 @@
 package com.cuong.identify_service.dto.request;
 
+import com.cuong.identify_service.validator.DobConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -22,5 +23,6 @@ public class UserCreationRequest {
     String firstName;
     String lastName;
 
+    @DobConstraint(min = 18, message = "INVALID_DOB")
     LocalDate dob;
 }
