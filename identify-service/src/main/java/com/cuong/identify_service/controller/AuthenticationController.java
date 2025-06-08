@@ -2,6 +2,7 @@ package com.cuong.identify_service.controller;
 
 import com.cuong.identify_service.dto.request.AuthenticationRequest;
 import com.cuong.identify_service.dto.request.IntrospectRequest;
+import com.cuong.identify_service.dto.request.LogoutRequest;
 import com.cuong.identify_service.dto.response.ApiResponse;
 import com.cuong.identify_service.dto.response.AuthenticationResponse;
 import com.cuong.identify_service.dto.response.Introspectresponse;
@@ -55,10 +56,19 @@ public class AuthenticationController {
     }
 
     @PostMapping("/introspect")
-    ApiResponse<Introspectresponse> authenticate (@RequestBody IntrospectRequest request) throws ParseException, JOSEException {
+    ApiResponse<Introspectresponse> authenticate(@RequestBody IntrospectRequest request)
+            throws ParseException, JOSEException {
         var result = authenticationService.introspect(request);
         return ApiResponse.<Introspectresponse>builder()
                 .result(result)
+                .build();
+    }
+
+    @PostMapping("/logout")
+    ApiResponse<Void> logout(@RequestBody LogoutRequest request)
+            throws ParseException, JOSEException {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder()
                 .build();
     }
 
