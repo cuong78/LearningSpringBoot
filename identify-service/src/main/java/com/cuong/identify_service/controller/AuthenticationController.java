@@ -3,6 +3,7 @@ package com.cuong.identify_service.controller;
 import com.cuong.identify_service.dto.request.AuthenticationRequest;
 import com.cuong.identify_service.dto.request.IntrospectRequest;
 import com.cuong.identify_service.dto.request.LogoutRequest;
+import com.cuong.identify_service.dto.request.RefreshRequest;
 import com.cuong.identify_service.dto.response.ApiResponse;
 import com.cuong.identify_service.dto.response.AuthenticationResponse;
 import com.cuong.identify_service.dto.response.Introspectresponse;
@@ -69,6 +70,15 @@ public class AuthenticationController {
             throws ParseException, JOSEException {
         authenticationService.logout(request);
         return ApiResponse.<Void>builder()
+                .build();
+    }
+
+    @PostMapping("/refresh")
+    ApiResponse<AuthenticationResponse> authenticate(@RequestBody RefreshRequest request)
+            throws ParseException, JOSEException {
+        var result = authenticationService.refreshToken(request);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(result)
                 .build();
     }
 
