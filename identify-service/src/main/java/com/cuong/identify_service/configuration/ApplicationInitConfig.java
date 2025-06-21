@@ -1,7 +1,8 @@
 package com.cuong.identify_service.configuration;
 
+import com.cuong.identify_service.entity.Role;
 import com.cuong.identify_service.entity.User;
-import com.cuong.identify_service.enums.Role;
+import com.cuong.identify_service.repository.RoleRepository;
 import com.cuong.identify_service.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -26,23 +27,33 @@ public class ApplicationInitConfig {
     PasswordEncoder passwordEncoder ;
 
     @Bean
-    ApplicationRunner applicationRunner(UserRepository userRepository) {
+    ApplicationRunner applicationRunner(UserRepository userRepository, RoleRepository roleRepository) {
         return args -> {
-            if(userRepository.findByUsername("admin").isEmpty()) {
-                var role = new HashSet<String>();
-                role.add(Role.ADMIN.name());
+            if (userRepository.findByUsername("admin").isEmpty()) {
+
+                // Ensure role exists (create if not present)
+                Role adminRole = (Role) roleRepository.findByName("ADMIN").orElseGet(() -> {
+                    Role newRole = Role.builder()
+                            .name("ADMIN")
+                            .description("Administrator role")
+                            .build();
+                    return roleRepository.save(newRole);
+                });
+
+                var roles = new HashSet<Role>();
+                roles.add(adminRole);
+
                 User user = User.builder()
                         .username("admin")
-                     //   .roles(role)
                         .password(passwordEncoder.encode("admin"))
-
+                        .roles(roles)
                         .build();
                 userRepository.save(user);
-                log.warn("admin user has been created with defauted password: admin");
+
+                log.warn("admin user has been created with default password: admin");
             }
         };
     }
-
 
 
 }
