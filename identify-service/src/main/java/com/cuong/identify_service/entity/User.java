@@ -22,6 +22,7 @@ public class User {
 
     @Column(unique = true)
     String username;
+
     String password;
     String firstName;
     String lastName;

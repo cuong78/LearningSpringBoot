@@ -2,14 +2,13 @@ package com.cuong.identify_service.configuration;
 
 import java.util.HashSet;
 
-import com.cuong.identify_service.constant.PredefinedRole;
-import lombok.experimental.NonFinal;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.cuong.identify_service.constant.PredefinedRole;
 import com.cuong.identify_service.entity.Role;
 import com.cuong.identify_service.entity.User;
 import com.cuong.identify_service.repository.RoleRepository;
@@ -18,6 +17,7 @@ import com.cuong.identify_service.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 
 @Configuration
