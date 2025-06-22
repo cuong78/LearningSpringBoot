@@ -14,9 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -24,6 +27,8 @@ import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestPropertySource("/test.properties")
+
 public class UserServiceTest {
     @Autowired
     private UserService userService;
@@ -92,4 +97,16 @@ public class UserServiceTest {
         Assertions.assertThat(exception.getErrorCode().getCode())
                 .isEqualTo(1002);
     }
+
+    @Test
+    @WithMockUser(username = "john")
+    void getMyInfo_validRequest_success(){
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(user));
+
+        var response = userService.getMyInfo();
+        Assertions.assertThat(response.getUsername()).isEqualTo("john");
+        Assertions.assertThat(response.getId()).isEqualTo("cf0600f538b3");
+
+    }
+
 }
