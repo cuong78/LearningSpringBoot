@@ -1,34 +1,32 @@
 package com.cuong.identify_service.service;
 
-import com.cuong.identify_service.controller.UserController;
-import com.cuong.identify_service.dto.request.UserCreationRequest;
-import com.cuong.identify_service.dto.response.UserResponse;
-import com.cuong.identify_service.entity.User;
-import com.cuong.identify_service.exception.AppException;
-import com.cuong.identify_service.repository.UserRepository;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import java.time.LocalDate;
-import java.util.Optional;
+import com.cuong.identify_service.dto.request.UserCreationRequest;
+import com.cuong.identify_service.dto.response.UserResponse;
+import com.cuong.identify_service.entity.User;
+import com.cuong.identify_service.exception.AppException;
+import com.cuong.identify_service.repository.UserRepository;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource("/test.properties")
-
 public class UserServiceTest {
     @Autowired
     private UserService userService;
@@ -42,7 +40,7 @@ public class UserServiceTest {
     private LocalDate dob;
 
     @BeforeEach
-    void initData(){
+    void initData() {
         dob = LocalDate.of(1990, 1, 1);
 
         request = UserCreationRequest.builder()
@@ -71,7 +69,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void createUser_validRequest_success(){
+    void createUser_validRequest_success() {
         // GIVEN
         when(userRepository.existsByUsername(anyString())).thenReturn(false);
         when(userRepository.save(any())).thenReturn(user);
@@ -85,28 +83,24 @@ public class UserServiceTest {
     }
 
     @Test
-    void createUser_userExisted_fail(){
+    void createUser_userExisted_fail() {
         // GIVEN
         when(userRepository.existsByUsername(anyString())).thenReturn(true);
 
         // WHEN
-        var exception = assertThrows(AppException.class,
-                () -> userService.createUser(request));
+        var exception = assertThrows(AppException.class, () -> userService.createUser(request));
 
         // THEN
-        Assertions.assertThat(exception.getErrorCode().getCode())
-                .isEqualTo(1002);
+        Assertions.assertThat(exception.getErrorCode().getCode()).isEqualTo(1002);
     }
 
     @Test
     @WithMockUser(username = "john")
-    void getMyInfo_validRequest_success(){
+    void getMyInfo_validRequest_success() {
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(user));
 
         var response = userService.getMyInfo();
         Assertions.assertThat(response.getUsername()).isEqualTo("john");
         Assertions.assertThat(response.getId()).isEqualTo("cf0600f538b3");
-
     }
-
 }

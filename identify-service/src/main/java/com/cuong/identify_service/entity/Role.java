@@ -1,11 +1,11 @@
 package com.cuong.identify_service.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.util.Set;
 
+import jakarta.persistence.*;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Getter
@@ -17,6 +17,7 @@ import java.util.Set;
 public class Role {
     @Id
     String name;
+
     String description;
 
     @ManyToMany

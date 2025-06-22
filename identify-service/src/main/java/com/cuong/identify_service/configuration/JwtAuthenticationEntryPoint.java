@@ -1,16 +1,19 @@
 package com.cuong.identify_service.configuration;
 
-import com.cuong.identify_service.dto.response.ApiResponse;
-import com.cuong.identify_service.exception.ErrorCode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import java.io.IOException;
+import com.cuong.identify_service.dto.response.ApiResponse;
+import com.cuong.identify_service.exception.ErrorCode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(

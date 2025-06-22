@@ -1,22 +1,22 @@
 package com.cuong.identify_service.configuration;
 
-import com.cuong.identify_service.entity.Role;
-import com.cuong.identify_service.entity.User;
-import com.cuong.identify_service.repository.RoleRepository;
-import com.cuong.identify_service.repository.UserRepository;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.HashSet;
+
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.HashSet;
+import com.cuong.identify_service.entity.Role;
+import com.cuong.identify_service.entity.User;
+import com.cuong.identify_service.repository.RoleRepository;
+import com.cuong.identify_service.repository.UserRepository;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @RequiredArgsConstructor
@@ -24,15 +24,13 @@ import java.util.HashSet;
 @Slf4j
 public class ApplicationInitConfig {
 
-
-    PasswordEncoder passwordEncoder ;
+    PasswordEncoder passwordEncoder;
 
     @Bean
-    @ConditionalOnProperty(prefix = "spring",
-    value = "datasource.driverClassName",
-    havingValue = "com.mysql.cj.jdbc.Driver"
-    )
-
+    @ConditionalOnProperty(
+            prefix = "spring",
+            value = "datasource.driverClassName",
+            havingValue = "com.mysql.cj.jdbc.Driver")
     ApplicationRunner applicationRunner(UserRepository userRepository, RoleRepository roleRepository) {
         return args -> {
             if (userRepository.findByUsername("admin").isEmpty()) {
@@ -60,7 +58,4 @@ public class ApplicationInitConfig {
             }
         };
     }
-
-
 }
-

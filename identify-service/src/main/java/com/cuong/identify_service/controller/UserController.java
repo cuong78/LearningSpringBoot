@@ -1,20 +1,21 @@
 package com.cuong.identify_service.controller;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.web.bind.annotation.*;
+
 import com.cuong.identify_service.dto.request.UserCreationRequest;
 import com.cuong.identify_service.dto.request.UserUpdateRequest;
 import com.cuong.identify_service.dto.response.ApiResponse;
 import com.cuong.identify_service.dto.response.UserResponse;
-import com.cuong.identify_service.entity.User;
 import com.cuong.identify_service.service.UserService;
-import jakarta.validation.Valid;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
