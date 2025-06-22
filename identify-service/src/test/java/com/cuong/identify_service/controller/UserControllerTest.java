@@ -2,7 +2,6 @@ package com.cuong.identify_service.controller;
 import com.cuong.identify_service.dto.request.UserCreationRequest;
 import com.cuong.identify_service.dto.response.UserResponse;
 import com.cuong.identify_service.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
@@ -12,9 +11,9 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,6 +24,7 @@ import java.time.LocalDate;
 @Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestPropertySource("/test.properties")
 public class UserControllerTest {
 
     @Autowired
