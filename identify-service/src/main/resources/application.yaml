@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url:  ${DBMS_CONNECTION:jdbc:mysql://localhost:3306/identity}
+    url:  ${DBMS_CONNECTION:jdbc:mysql://some-mysql:3306/identity}
     username:  ${DBMS_USERNAME:root}
     password: ${DBMS_PASSWORD:123456}
     driverClassName: "com.mysql.cj.jdbc.Driver"
